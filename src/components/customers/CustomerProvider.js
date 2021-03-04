@@ -5,25 +5,15 @@ export const CustomerContext = createContext()
 
 // This component establishes what data can be used.
 export const CustomerProvider = (props) => {
-    const [customer, setCustomers] = useState([])
+    const [customers, setCustomers] = useState([])
 
-    const getAnimals = () => {
-        return fetch("http://localhost:8088/animals?_expand=location")
+    const getCustomers = () => {
+        return fetch("http://localhost:8088/customers")
         .then(res => res.json())
-        .then(setAnimals)
+        .then(setCustomers)
     }
 
-    const addAnimal = animalObj => {
-        return fetch("http://localhost:8088/animals", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(animalObj)
-        })
-        .then(getAnimals)
-    }
-
+   
     /*
         You return a context provider which has the
         `animals` state, `getAnimals` function,
@@ -31,10 +21,10 @@ export const CustomerProvider = (props) => {
         allows any child elements to access them.
     */
     return (
-        <AnimalContext.Provider value={{
-            animals, getAnimals, addAnimal
+        <CustomerContext.Provider value={{
+            customers, getCustomers,
         }}>
             {props.children}
-        </AnimalContext.Provider>
+        </CustomerContext.Provider>
     )
 }

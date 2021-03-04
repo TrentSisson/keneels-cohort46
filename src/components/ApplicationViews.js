@@ -3,6 +3,8 @@ import { Route } from "react-router-dom"
 import { Home } from "./Home"
 import { AnimalList } from "./animal/AnimalList"
 import { AnimalProvider } from "./animal/AnimalProvider"
+import { CustomerProvider } from "./customers/CustomerProvider"
+import { CustomerList } from  "./customers/CustomerList"
 
 export const ApplicationViews = () => {
     return (
@@ -22,13 +24,13 @@ export const ApplicationViews = () => {
                 <LocationProvider>
                     <LocationList />
                 </LocationProvider>
-            </Route>
+            </Route> */}
             <Route path="/customers">
                 <CustomerProvider>
                     <CustomerList />
                 </CustomerProvider>
             </Route>
-            <Route path="/employees">
+            {/* <Route path="/employees">
                 <EmployeeProvider>
                     <EmploeeList />
                 </EmployeeProvider>
