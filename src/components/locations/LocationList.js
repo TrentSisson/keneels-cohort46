@@ -2,6 +2,7 @@ import { React, useContext, useEffect } from "react"
 import { LocationContext } from "./LocationsProvider"
 import { LocationCard } from "./LocationsCard"
 import "./Locations.css"
+import { useHistory } from "react-router-dom"
 
 export const LocationList = () => {
   // This state changes when `getAnimals()` is invoked below
@@ -14,8 +15,13 @@ export const LocationList = () => {
 
   }, [])
 
-
+const history = useHistory()
   return (
+    <>
+    <h2>Locations</h2>
+      <button onClick={() => { history.push("/location/create") }}>
+        Add Location
+    </button>
     <div className="locations">
       {console.log("LocationList: Render", locations)}
       {
@@ -24,5 +30,6 @@ export const LocationList = () => {
         })
       }
     </div>
+    </>
   )
 }
