@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from "react"
 import { LocationContext } from "./LocationsProvider"
 import "./Locations.css"
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 
 export const LocationForm = () => {
-  const { locations, getLocations, addLocation } = useContext(LocationContext)
+  const { locations, getLocations, addLocation, updateLocation, getLocationById } = useContext(LocationContext)
 
 
   /*
@@ -18,15 +18,25 @@ export const LocationForm = () => {
     address: "",
   });
 
+  const [isLoading, setIsLoading] = useState(true);
+  const { locationId } = useParams();
   const history = useHistory();
 
   /*
   Reach out to the world and get locations state on initialization.
   */
   useEffect(() => {
-    getLocations()
-  }, [])
-
+    
+      if (locationId) {
+        getLocationById(locationId)
+          .then(location => {
+            setLocations(location)
+            setIsLoading(false)
+          })
+      } else {
+        setIsLoading(false)
+      }
+    }, [])
   //when a field changes, update state. The return will re-render and display based on the values in state
   //Controlled component
   const handleControlledInputChange = (event) => {
@@ -41,25 +51,36 @@ export const LocationForm = () => {
     setLocations(newLocation)
   }
 
-  const handleClickSaveLocation = (event) => {
-    event.preventDefault() //Prevents the browser from submitting the form
+  const handleClickSaveLocation = () => {
+    if (parseInt(locationId) === 0) {
+      window.alert("Please select a location")
+    } else {
+      setIsLoading(true);
 
-      //Invoke addEmployee passing the new employee object as an argument
-      //Once complete, change the url and display the employee list
+      if (locationId) {
+        updateLocation({
+          id: location.id,
+          name: location.name,
+          address: location.address
 
-      const newLocation = {
-        name: location.name,
-        address: location.address,
-    
+        })
+          .then( history.push(`/location/detail/${location.id}`))
+      } else {
+
+        const newLocation = {
+          name: location.name,
+          address: location.address,
+
+        }
+        addLocation(newLocation)
+          .then(() => history.push("/locations"))
       }
-      addLocation(newLocation)
-        .then(() => history.push("/locations"))
     }
-  
+  }
 
   return (
     <form className="locationForm">
-      <h2 className="employeeForm__title">New Location</h2>
+      <h2 className="employeeForm__title">{locationId ? "Edit Location" : "Add Location"}</h2>
       <fieldset>
         <div className="form-group">
           <label htmlFor="name">Location name:</label>
@@ -67,16 +88,16 @@ export const LocationForm = () => {
         </div>
       </fieldset>
 
-      
+
       <fieldset>
         <div className="form-group">
           <label htmlFor="address">Location address:</label>
           <input type="text" id="address" required autoFocus className="form-control" placeholder="Location address" value={location.address} onChange={handleControlledInputChange} />
         </div>
       </fieldset>
-      
-     
-    
+
+
+
       <button className="btn btn-primary" onClick={handleClickSaveLocation}>
         Save Location
           </button>

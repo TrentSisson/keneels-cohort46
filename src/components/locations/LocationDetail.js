@@ -25,6 +25,9 @@ export const LocationDetail = () => {
        <div className="location__animals">{locations.animals?.map(animal => <li key ={animal.id}>{animal.name}</li>)}</div>
        <h2>Employees</h2>
        <div className="location__employees">{locations.employees?.map(employee => <li key ={employee.id}>{employee.name}</li>)}</div>
+       <button onClick={() => {
+                history.push(`/location/edit/${locations.id}`)
+            }}>Edit</button>
     </section>
   )
 }
