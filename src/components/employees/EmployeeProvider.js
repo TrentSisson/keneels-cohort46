@@ -13,6 +13,17 @@ export const EmployeeProvider = (props) => {
         .then(setEmployees)
     }
 
+    const addEmployee = employeeObj => {
+        return fetch("http://localhost:8088/employees", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(employeeObj)
+        })
+        .then(response => response.json())
+    }
+
    
     /*
         You return a context provider which has the
@@ -22,7 +33,7 @@ export const EmployeeProvider = (props) => {
     */
     return (
         <EmployeeContext.Provider value={{
-            employees, getEmployees,
+            employees, getEmployees, addEmployee
         }}>
             {props.children}
         </EmployeeContext.Provider>
