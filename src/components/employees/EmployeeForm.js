@@ -69,7 +69,7 @@ export const EmployeeForm = () => {
                     locationId: parseInt(employee.locationId)
 
                 })
-                    .then(() => history.push(`/employees/detail/${employee.id}`))
+                    .then( history.push(`/employee/detail/${employee.id}`))
             } else {
 
                 const newEmployee = {
@@ -78,7 +78,7 @@ export const EmployeeForm = () => {
 
                 }
                 addEmployee(newEmployee)
-                    .then(() => history.push("/employees"))
+                    .then( history.push("/employees"))
             }
         }
     }
