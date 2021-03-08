@@ -1,11 +1,16 @@
 import React from "react"
 import "./Animal.css"
+import { Link } from "react-router-dom"
 
-export const AnimalCard = ({ animal, customer, location }) => (
+
+export const AnimalCard = ({ animal }) => {
+  return (
     <section className="animal">
-        <h2 className="animal__name">Name: {animal.name}</h2>
-        <p className="animal__breed">Breed: {animal.breed}</p>
-        <address className="location__address">Location: {location.name}</address>
-        <h3 className="customer__name">Customer: {customer.name}</h3>
-    </section>
-)
+      <h3 className="animal__name">
+        <Link to={`/animals/detail/${animal.id}`}>
+          { animal.name }
+        </Link>
+      </h3>
+      <div className="animal__breed">{ animal.breed }</div>
+  </section>
+)}
